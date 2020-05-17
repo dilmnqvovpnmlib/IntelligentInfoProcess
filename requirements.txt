@@ -1,0 +1,8 @@
+numpy
+matplotlib
+ipython
+gspread
+oauth2client
+flake8
+isort
+python-dotenv
