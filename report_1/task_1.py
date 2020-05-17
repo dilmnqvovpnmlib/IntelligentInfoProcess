@@ -1,4 +1,6 @@
 import json
+import os
+from dotenv import load_dotenv
 
 import gspread
 import matplotlib.pyplot as plt
@@ -19,10 +21,17 @@ class Main:
         self.save_data()
     
     def save_data(self):
-        scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-        credentials = ServiceAccountCredentials.from_json_keyfile_name('prismatic-petal-198815-3422944891c6.json', scope)
+        load_dotenv('./.env')
+        file_name = 'prismatic-petal-198815-3422944891c6.json'
+        json_open = open('./prismatic-petal-198815-3422944891c6.json', 'r')
+        json_load = json.load(json_open)
+        scope = [
+            'https://spreadsheets.google.com/feeds',
+            'https://www.googleapis.com/auth/drive'
+        ]
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(file_name, scope)
         gc = gspread.authorize(credentials)
-        SPREADSHEET_KEY = '1BRN450vJugBghpBPdqPvESoh0DRNXXqqvx1wIhDyQUQ'
+        SPREADSHEET_KEY = os.environ['SPREADSHEET_KEY']
         self.worksheet = gc.open_by_key(SPREADSHEET_KEY).sheet1
 
     def show(self, value):
